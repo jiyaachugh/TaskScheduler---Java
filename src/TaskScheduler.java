@@ -20,5 +20,20 @@ public class TaskScheduler {
                 new Task("T2", 5, 1),
                 new Task("T3", 8, 3)
         );
+
+        System.out.println("=== Priority Scheduling ===");
+        priorityScheduling(new ArrayList<>(taskList));
+
     }
+
+    public static void priorityScheduling(List<Task> tasks) {
+        tasks.sort(Comparator.comparingInt(t -> t.priority));
+        int time = 0;
+        System.out.println("Priority Scheduling Order:");
+        for (Task t : tasks) {
+            System.out.println("Task: " + t.name + ", Start: " + time + ", End: " + (time + t.burstTime));
+            time += t.burstTime;
+        }
+    }
+
 }
