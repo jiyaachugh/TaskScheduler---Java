@@ -24,6 +24,9 @@ public class TaskScheduler {
         System.out.println("=== Priority Scheduling ===");
         priorityScheduling(new ArrayList<>(taskList));
 
+        System.out.println("\n=== Round Robin Scheduling ===");
+        roundRobinScheduling(new ArrayList<>(taskList), 4);
+
     }
 
     public static void priorityScheduling(List<Task> tasks) {
@@ -35,5 +38,34 @@ public class TaskScheduler {
             time += t.burstTime;
         }
     }
+
+    public static void roundRobinScheduling(List<Task> tasks, int quantum) {
+        Queue<Task> queue = new LinkedList<>(tasks);
+        Map<String, Integer> remaining = new HashMap<>();
+        for (Task t : tasks) {
+            remaining.put(t.name, t.burstTime);
+        }
+
+        int time = 0;
+        System.out.println("\nRound Robin Scheduling (Quantum = " + quantum + "):");
+        while (!queue.isEmpty()) {
+            Task current = queue.poll();
+            int remainingTime = remaining.get(current.name);
+
+            if (remainingTime > quantum) {
+                System.out.println("Task: " + current.name + ", Start: " + time + ", End: " + (time + quantum));
+                time += quantum;
+                remaining.put(current.name, remainingTime - quantum);
+                queue.offer(current); // Re-add to queue
+            } else {
+                System.out.println("Task: " + current.name + ", Start: " + time + ", End: " + (time + remainingTime));
+                time += remainingTime;
+                remaining.remove(current.name);
+            }
+        }
+    }
+
+
+
 
 }
