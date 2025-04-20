@@ -34,7 +34,7 @@ public class TaskScheduler {
         int time = 0;
         System.out.println("Priority Scheduling Order:");
         for (Task t : tasks) {
-            System.out.println("Task: " + t.name + ", Start: " + time + ", End: " + (time + t.burstTime));
+            System.out.printf("Task: %-3s | Start: %2d | End: %2d%n", t.name, time, time + t.burstTime);
             time += t.burstTime;
         }
     }
@@ -53,12 +53,12 @@ public class TaskScheduler {
             int remainingTime = remaining.get(current.name);
 
             if (remainingTime > quantum) {
-                System.out.println("Task: " + current.name + ", Start: " + time + ", End: " + (time + quantum));
+                System.out.printf("Task: %-3s | Start: %2d | End: %2d%n", current.name, time, time + quantum);
                 time += quantum;
                 remaining.put(current.name, remainingTime - quantum);
                 queue.offer(current); // Re-add to queue
             } else {
-                System.out.println("Task: " + current.name + ", Start: " + time + ", End: " + (time + remainingTime));
+                System.out.printf("Task: %-3s | Start: %2d | End: %2d%n", current.name, time, time + remainingTime);
                 time += remainingTime;
                 remaining.remove(current.name);
             }
